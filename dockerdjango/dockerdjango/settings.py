@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import json
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,11 +21,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
+# load json secrets
+with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:
+    secrets_json = json.load(secrets_file)
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%+lt_y9d(+#swypmouttdwhf4yn*#4*_#oqo-o!=i%+wddea)w'
+SECRET_KEY = secrets_json['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (len(sys.argv) >= 2)
 
 ALLOWED_HOSTS = []
 
@@ -75,8 +81,12 @@ WSGI_APPLICATION = 'dockerdjango.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': secrets_json['DB_NAME'],
+        'USER': secrets_json['DB_USER'],
+        'PASSWORD': secrets_json['DB_PASSWORD'],
+        'HOST': secrets_json['DB_HOST'],
+        'PORT': '5432'        
     }
 }
 
