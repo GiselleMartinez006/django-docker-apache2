@@ -5,8 +5,9 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata && apt-get instal
 WORKDIR /var/www/html
 COPY environment.yaml /var/www/html/
 RUN sudo -u c-user conda env create -f environment.yaml
-COPY ./dockerdjango/ /var/www/html/
+COPY ./dockerdjango /var/www/html/dockerdjango
 COPY ./static /var/www/html/static
 ADD ./demo_site.conf /etc/apache2/sites-available/000-default.conf
 EXPOSE 80
 CMD ["apache2ctl", "-D", "FOREGROUND"]
+

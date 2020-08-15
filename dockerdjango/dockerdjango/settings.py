@@ -29,9 +29,10 @@ with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:
 SECRET_KEY = secrets_json['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (len(sys.argv) >= 2)
+# DEBUG = (len(sys.argv) >= 2)
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
