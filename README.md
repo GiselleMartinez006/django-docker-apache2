@@ -15,6 +15,17 @@ Deploying a django project on apache2 presents the following problems:
 * The proposed solution is using miniconda packages manager.
 * Creating a custom docker image with miniconda3 pre installed, with one new user and sudo installed. Docker image jomvargasm/python3.8-miniconda3
 * Building conda environment from the new user using sudo.
+* A secrets.json file must be created inside dockerdjango folder, next to django manage.py file. This file hiddes the secret information. The structure of this file must be the following:
+
+```
+{
+    "SECRET_KEY": "secret",
+    "DB_PASSWORD": "password",
+    "DB_HOST": "localhost",
+    "DB_NAME": "database",
+    "DB_USER": "user"
+}
+```
 
 ## Comments
 
